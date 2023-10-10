@@ -1,0 +1,118 @@
+/*Question 4*/
+SELECT COUNT(DISTINCT wc.WorkCenterID) as [Count of WorkCenters], wc.WorkCenterID
+FROM WorkCenter_T as wc
+GROUP BY wc.WorkCenterID
+
+SELECT *
+FROM WorkCenter_T
+
+/*Question 5*/
+SELECT *
+FROM Employee_T as e
+WHERE SUBSTRING(e.EmployeeName,1,1) = 'l';
+
+/*Question 6*/
+SELECT *
+FROM Employee_T as e
+WHERE YEAR(e.EmployeeDateHired) = 2005;
+
+/*Question 7*/
+SELECT *
+FROM Customer_T as c
+WHERE c.CustomerState in ('CA','WA');
+
+/*Question 8*/
+SELECT *
+FROM RawMaterial_T as r
+WHERE r.Material = 'cherry' AND r.Thickness = '12' AND r.Width = 12;
+
+/*Question 9*/
+SELECT MaterialID, MaterialName, MaterialStandardPrice, Thickness
+FROM RawMaterial_T as r
+WHERE r.Material in ('cherry', 'pine', 'walnut')
+ORDER BY r.Material, r.MaterialStandardPrice, r.Thickness
+
+
+/*Question 10*/
+SELECT p.ProductLineID, AVG(p.ProductStandardPrice)
+FROM Product_T as p
+GROUP BY p.ProductLineID
+
+/*Question 11*/
+SELECT p.ProductLineID, AVG(p.ProductStandardPrice)
+FROM Product_T as p
+WHERE p.ProductLineID > 200
+GROUP BY p.ProductLineID
+HAVING AVG(p.ProductStandardPrice) >= 500;
+
+/*Question 12*/
+SELECT o.ProductID, SUM(o.OrderedQuantity) as [Total Ordered]
+FROM OrderLine_T as o
+GROUP BY o.ProductID
+ORDER BY SUM(o.OrderedQuantity) desc;
+
+/*Question 13*/
+SELECT o.OrderID, COUNT( ProductID) as [Number of Seperate Products], SUM(o.OrderedQuantity)
+FROM OrderLine_T as o
+GROUP BY o.OrderID
+
+/*Question 14*/
+SELECT o.CustomerID, COUNT(o.OrderID)
+FROM Order_T as o
+GROUP BY o.CustomerID
+
+/*Question 15*/
+SELECT DISTINCT o.SalesPersonID, o.CustomerID
+FROM Order_T as o
+
+
+/*Question 16*/
+SELECT o.ProductID, COUNT(o.OrderID)
+FROM OrderLine_T as o
+GROUP BY o.ProductID
+ORDER BY COUNT(o.OrderID) Desc
+
+/*Question 17*/
+SELECT p.PaymentID,p.OrderID,p.PaymentAmount, SUBSTRING(p.comment,1,10)
+FROM Payment_T as p
+WHERE PaymentDate = '2018-03-10'
+
+/*Question 18*/
+SELECT o.CustomerID, COUNT(o.OrderID)
+FROM Order_T as o
+WHERE YEAR(o.OrderDate)=2018
+GROUP BY o.CustomerID;
+
+/*Question 19*/
+SELECT o.SalesPersonID, COUNT(*)
+FROM Order_T as o
+GROUP BY o.SalesPersonID;
+
+/*Question 20*/
+SELECT o.CustomerID, COUNT(o.OrderID) as [Total Number of Orders]
+FROM Order_T as o
+GROUP BY o.CustomerID;
+
+/*Question 21*/
+SELECT SUBSTRING(s.MaterialID, 1, len(s.MaterialID)-3) ,COUNT(s.VendorID), AVG(s.SupplyUnitPrice)
+FROM Supplies_T as s
+WHERE SUBSTRING(s.MaterialID,1,1) in ('1','2','3','4','5','6','7','8','9','0')
+GROUP BY SUBSTRING(s.MaterialID,1,len(s.materialID)-3);
+
+/*Question 22*/
+SELECT s.SalesTerritoryID, COUNT(s.SalespersonID)
+FROM Salesperson_T as s
+GROUP BY s.SalesTerritoryID
+HAVING COUNT(s.SalespersonID) > 1;
+
+/*Question 26*/
+SELECT s.SalesTerritoryID, COUNT(s.SalespersonID) as [NumSalesPersons]
+FROM Salesperson_T as s
+GROUP BY s.SalesTerritoryID
+HAVING COUNT(s.SalespersonID) > 1;
+
+/*Question 27*/
+SELECT o.SalespersonID, COUNT(o.OrderID) as [Number of Orders]
+FROM Order_T as o
+WHERE o.SalesPersonID NOT IN ('3','5','9')
+GROUP BY o.SalesPersonID
